@@ -11,23 +11,19 @@ This tutorial will be your best friend https://www.youtube.com/watch?v=AWie7zwAy
 - The Remote API
   - Register in contentful and create a new space
   - Create a content type 
-    - Recipe, with fields: title & body of type short text & text respectively 
+    - Recipe, with fields: title & body of type short text & long text respectively 
     - add any other field that you see fit, be aware that rich text fields are harder to use 
   - Create some testing content
   - Get your API keys
 
-## Optional (HARD)
-- Add a content type Category, with a single field "name"
-- Add a category field to recipes (category must be a reference )
-
-
+# Level 2
 - The React App
   - create a new React app
   - install https://github.com/contentful/contentful.js
   - You will have to use bootstrap or any other CSS framework of your choice for this project
   - The cookbook will be a single page application implementing the following functionality
-    - a search form to filter results by title (optional add category)
-      - you must use reacts useRef hook to track the value of the form's inputs 
+    - a search form to filter results by title (optional also category)
+      - you must use reacts useRef hook to track the value of the form's input/s 
     - a list of recipes displaying the searched recipes 
     - on click on each recipe you must decide how the selected recipe will be shown to the user without reloading the page
     - it must consume data from your contentful space
@@ -35,10 +31,14 @@ This tutorial will be your best friend https://www.youtube.com/watch?v=AWie7zwAy
 
 
 # Level 3
-- React router, we will use React's router component to handle our cookbook so our browser address bad reflect the current state of the application 
-and also to be able to load those states on demand
+- React router, we will use Reacts router component to handle our cookbook so our browser address bar reflect the current state of the application 
+and also to be able to load those states on demand.
   - You must implement react router to store and retrieve the query params on the address bar
   - when viewing a recipe the address bar must be updated & loading that our should trigger the recipe detail's view
+
+## Optional (HARD)
+- Add a content type Category, with a single field "name"
+- Add a category field to recipes (category must be a reference to one or many categories entities)
 
 # optional level 1
 - My First Login
