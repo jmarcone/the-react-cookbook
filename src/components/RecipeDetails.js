@@ -1,19 +1,32 @@
-import React, {useContext} from "react";
-import {Col} from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import useContentful from "../useContentful";
+import { Container } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import ReactMarkdown from 'react-markdown'
+import { UserContext } from "../App";
 
-export default ({recipe, setSelected}) => {
+const RecipeDetails = () => {
+    const user = useContext(UserContext);
 
-    const closeRecipeHandler = () => {
-        setSelected(null);
-    }
-    return(
-        <Col xs={9}  className="col p-5 shadow-sm bg-body rounded">
-            <h3>{recipe.title}
-                <button onClick={closeRecipeHandler} type="button" className="btn-close" aria-label="Close"></button>
-            </h3>
-            <p>
+    const { id } = useParams();
+    const [recipe, setRecipe] = useState(null);
+    const {getRecipeDetails} = useContentful(user);
+
+    useEffect(() => {
+        getRecipeDetails(id).then(response => response && setRecipe(response));
+    }, [id])
+
+
+    return (
+        recipe && <Container fluid className="recipes-list bg-body recipe-details">
+            <h1>{recipe.title}</h1>
+            <img src={recipe.image} />
+            
+            <ReactMarkdown>
                 {recipe.content}
-            </p>
-        </Col>
+            </ReactMarkdown>
+        </Container>
     );
 }
+
+export default RecipeDetails;

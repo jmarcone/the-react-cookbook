@@ -16,7 +16,6 @@ This tutorial will be your best friend https://www.youtube.com/watch?v=AWie7zwAy
   - Create some testing content
   - Get your API keys
 
-
 # Level 2
 - The React App
   - create a new React app
@@ -29,7 +28,6 @@ This tutorial will be your best friend https://www.youtube.com/watch?v=AWie7zwAy
     - on click on each recipe you must decide how the selected recipe will be shown to the user without reloading the page
     - it must consume data from your contentful space
     - you must use contentful client ``import {createClient} from "contentful";``
-
 
 # Level 3
 - React router, we will use Reacts router component to handle our cookbook so our browser address bar reflect the current state of the application 

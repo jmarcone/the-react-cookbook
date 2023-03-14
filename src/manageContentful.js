@@ -1,4 +1,4 @@
-import { createClient } from "contentful";
+import { createClient } from "contentful-managment";
 import { UserContext } from "./App";
 import { useContext } from "react";
 
@@ -24,9 +24,8 @@ const useContentful = (user) => {
                 select: "fields,sys",
                 //each extra line is a query option
                 "fields.title[match]": title,
-                //"fields.categories.fields.name[match]": category
-                // 'fields.categories.sys.contentType.sys.id': 'category',
-                 'fields.categories.sys.id[equal]': category,
+                
+                'fields.categories.sys.id[equal]': category,
                 "fields.categories.sys.id": category
             });
 
@@ -58,8 +57,7 @@ const useContentful = (user) => {
         const cleanRecipe = {
             ...recipe.fields,
             categories: categories,
-            id: recipe.sys.id,
-            image:  recipe.fields.image?.fields.file.url
+            id: recipe.sys.id
         };
         // console.log(cleanRecipe);
 

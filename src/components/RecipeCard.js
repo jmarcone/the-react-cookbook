@@ -1,17 +1,29 @@
 import React from "react";
-import {Card, Col} from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-export default ({recipe, setSelected}) => {
+const RecipeCard = ({ recipe }) => {
+    const navigate = useNavigate();
+
+    const clickHandler = (recipe) => {
+        navigate(`/recipe/${recipe.id}`)
+    }
+
+    console.log(recipe);
+
     return (
-        <Col>
-            <Card onClick={(e) => setSelected(recipe) }>
+        <>
+            <Card onClick={(e) => clickHandler(recipe)} >
+                <Card.Img variant="top" src={recipe.image} />
                 <Card.Body>
                     <Card.Title>{recipe.title}</Card.Title>
                     <Card.Text>
-                        {recipe.content}
+                        {recipe.categories.map(category => <span className="badge bg-warning text-dark">{category}</span>)}
                     </Card.Text>
                 </Card.Body>
             </Card>
-        </Col>
+        </>
     );
 }
+
+export default RecipeCard;
