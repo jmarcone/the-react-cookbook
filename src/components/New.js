@@ -1,15 +1,38 @@
-import React, { useState } from "react";
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+import React, { useRef, useState } from "react";
+import { Editor,EditorState, convertToRaw  } from 'draft-js';
+import 'draft-js/dist/Draft.css';
+// import { Editor } from 'react-draft-wysiwyg';
+import draftToMarkdown from 'draftjs-to-markdown';
 
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import manageContentful from "../manageContentful";
 // import './App.css';
 
 export default ({ categories }) => {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty(),
+      );
+    const {createEntry} = manageContentful();
+    const titleRef = useRef();
 
-    const handlesubmit = () => {
+    const handlesubmit = (e) => {
+        e.preventDefault();
+        
+        const rawContentState = convertToRaw(editorState.getCurrentContent());
+        const markup = draftToMarkdown(rawContentState);
 
+        const entry = {
+            fields: {
+                title: {
+                    'en-US':  titleRef.current.value
+                },
+                content: {
+                    'en-US': markup
+                }
+            }
+        }
+
+        createEntry(entry).then(data => console.log(data));
     };
 
     return (
@@ -17,7 +40,7 @@ export default ({ categories }) => {
             <form  onSubmit={handlesubmit}>
                 <div className="mb-3">
                     <label form="title" className="form-label">Title:</label>
-                    <input className="form-control" type="text" name="title"
+                    <input className="form-control" type="text" name="title" ref={titleRef}
                         id="title" placeholder="Enter your Title" />
                 </div>
                 <div className="mb-3">
@@ -32,7 +55,7 @@ export default ({ categories }) => {
                 <div className="mb-3">
                     <Editor
                         editorState={editorState}
-                        onEditorStateChange={setEditorState}
+                        onChange={setEditorState}
                     />
                 </div>
 

@@ -23,11 +23,13 @@ function App() {
     const { getCategories, getRecipes } = useContentful(logUser);
 
     useEffect(() => {
-        logUser && getCategories().then(response => response && setCategories(response));
+        logUser && getCategories()
+        .then(response => response && setCategories(response));
     }, [logUser]);
 
     useEffect(() => {
-        logUser && getRecipes(title, category).then(response => response && setRecipes(response));
+        logUser && getRecipes(title, category)
+        .then(response => response && setRecipes(response));
     }, [title, category, logUser])
 
     const navigate = useNavigate();

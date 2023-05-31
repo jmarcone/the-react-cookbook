@@ -1,106 +1,31 @@
-import { createClient } from "contentful-managment";
-import { UserContext } from "./App";
-import { useContext } from "react";
+import { createClient } from "contentful-management";
 
-const useContentful = (user) => {
-    if (!user)
-        return [];
+const manageContentful = () => {
 
     const client = createClient({
-        space: user?.space,
-        accessToken: user?.accessToken,
-        host: "preview.contentful.com"
+        accessToken: process.env.REACT_APP_ACCESS_TOKEN
     });
 
-    const getRecipes = async (title, category) => {
+    const createEntry = async (entry) => {
         try {
-            // if (client === null)
-            //     return null;
+            client.getSpace('hjxdu4cirwy1')
+            .then((space) => {
+                // console.log(space.getEnvironment("master").then(data => console.log(data)));
+                return space.getEnvironment('master')
+            })
+            .then((environment) => {
+                console.log(environment);
 
-            const entries = await client.getEntries({
-                //kinda mandatory
-                content_type: "recipe",
-                //you chose what to select
-                select: "fields,sys",
-                //each extra line is a query option
-                "fields.title[match]": title,
-                
-                'fields.categories.sys.id[equal]': category,
-                "fields.categories.sys.id": category
-            });
-
-
-
-            return entries.items.map((item) => sanitizeRecipe(item));
+                return environment.createEntry('recipe', entry)
+            })
+            .then((entry) => console.log(entry))
+            .catch(console.error)
         } catch (error) {
             console.error(error);
         }
     }
 
-
-    const getRecipeDetails = async (id) => {
-        try {
-            // if (client === null)
-            //     return null;
-
-            const recipe = await client.getEntry(id);
-
-            return sanitizeRecipe(recipe);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    const sanitizeRecipe = (recipe) => {
-        // console.log(recipe);
-        const categories = recipe.fields.categories.map(({ fields }) => fields.name);
-        const cleanRecipe = {
-            ...recipe.fields,
-            categories: categories,
-            id: recipe.sys.id
-        };
-        // console.log(cleanRecipe);
-
-        return cleanRecipe;
-    }
-
-    const getCategories = async () => {
-        // console.log("getting categories contentful");
-
-        // if (client === null)
-        //     return null;
-
-
-
-        try {
-            const entries = await client.getEntries({
-                //kinda mandatory
-                content_type: "category",
-                //you chose what to select
-                select: "fields,sys",
-            });
-
-            return entries.items.map((item) => sanitizeCategory(item));
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    const sanitizeCategory = (category) => {
-        // console.log(category)
-
-        return {
-            ...category.fields,
-            id: category.sys.id
-        };
-    }
-
-
-    const createEntry = (entry) => {
-
-    }
-
-    return { getRecipes, getRecipeDetails, getCategories };
+    return { createEntry };
 }
 
-export default useContentful;
+export default manageContentful;

@@ -1,6 +1,7 @@
 import { createClient } from "contentful";
 import { UserContext } from "./App";
 import { useContext } from "react";
+import { alignPropType } from "react-bootstrap/esm/types";
 
 const useContentful = (user) => {
     if (!user)
@@ -14,23 +15,20 @@ const useContentful = (user) => {
 
     const getRecipes = async (title, category) => {
         try {
-            // if (client === null)
-            //     return null;
-
             const entries = await client.getEntries({
                 //kinda mandatory
                 content_type: "recipe",
                 //you chose what to select
                 select: "fields,sys",
+
                 //each extra line is a query option
                 "fields.title[match]": title,
-                //"fields.categories.fields.name[match]": category
-                // 'fields.categories.sys.contentType.sys.id': 'category',
-                 'fields.categories.sys.id[equal]': category,
-                "fields.categories.sys.id": category
-            });
 
-
+                //to search by related category
+                "fields.categories.sys.id": category,
+                // 'fields.categories.sys.id[equal]': category,
+                
+            })
 
             return entries.items.map((item) => sanitizeRecipe(item));
         } catch (error) {
@@ -54,12 +52,12 @@ const useContentful = (user) => {
 
     const sanitizeRecipe = (recipe) => {
         // console.log(recipe);
-        const categories = recipe.fields.categories.map(({ fields }) => fields.name);
+        const categories = recipe.fields.categories?.map(({ fields }) => fields.name);
         const cleanRecipe = {
             ...recipe.fields,
             categories: categories,
             id: recipe.sys.id,
-            image:  recipe.fields.image?.fields.file.url
+            image: recipe.fields.image?.fields.file.url
         };
         // console.log(cleanRecipe);
 

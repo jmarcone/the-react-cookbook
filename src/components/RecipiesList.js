@@ -10,21 +10,19 @@ const RecipiesList = ({ categories, recipes, setTitle, setCategory, category }) 
             <SearchRecipes setTitle={setTitle} setCategory={setCategory} category={category} categories={categories} />
             <h3>All Recipies</h3>
             <Container fluid className="recipes-list">
-                <CardGroup>
-                    {/* <Row>
-                    <Col xs={12}>
-                        <Row xs={1} md={2}> */}
-                    {
-                        recipes.map(
-                            function (recipe) {
-                                return (<RecipeCard key={recipe.id} recipe={recipe} />)
+                
+                    <Col xs={12} >
+                        <Row xs={2} md={4} id="card-group">
+                            {
+                                recipes.map(
+                                    function (recipe) {
+                                        return (<RecipeCard key={recipe.id} recipe={recipe} />)
+                                    }
+                                )
                             }
-                        )
-                    }
-                    {/* </Row>
+                        </Row>
                     </Col>
-                </Row> */}
-                </CardGroup>
+                
             </Container>
         </>
     );

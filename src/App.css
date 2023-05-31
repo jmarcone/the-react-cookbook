@@ -37,11 +37,7 @@
   }
 }
 
-.card-group{
+#card-group{
   gap: 10px 20px;
 }
 
-.card-group .card {
-  /* margin-left: 15px;
-  margin-right: 15px; */
-}

@@ -18,7 +18,7 @@ const RecipeCard = ({ recipe }) => {
                 <Card.Body>
                     <Card.Title>{recipe.title}</Card.Title>
                     <Card.Text>
-                        {recipe.categories.map(category => <span className="badge bg-warning text-dark">{category}</span>)}
+                        {recipe.categories?.map(category => <span className="badge bg-warning text-dark">{category}</span>)}
                     </Card.Text>
                 </Card.Body>
             </Card>
